@@ -1,0 +1,60 @@
+version: 1.0
+stages:
+  - prepare
+  - functional_tests
+steps:
+  main_clone:
+    type: git-clone
+    title: Git clone securebanking-openbanking-uk-functional-tests
+    stage: "prepare"
+    repo: SecureBankingAccessToolkit/securebanking-openbanking-uk-functional-tests
+    revision: '${{CF_REVISION}}'
+    git: github-bot
+  build_project:
+    type: build
+    title: build image to run single tests
+    stage: "prepare"
+    working_directory: ${{main_clone}}
+    dockerfile: Dockerfile
+    image_name: securebanking/functional-tests-helper
+    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
+    no_cache: true
+    no_cf_cache: true
+  run_functional_tests:
+    type: parallel
+    stage: "functional_tests"
+    steps:
+      run_serviceHealthCheck:
+        environment:
+          - DOMAIN=master.forgerock.financial
+        title: serviceHealthCheck
+        image: ${{build_project}}
+        commands:
+          - gradle serviceHealtCheck -i
+      run_registration:
+        environment:
+          - DOMAIN=master.forgerock.financial
+        title: registration
+        image: ${{build_project}}
+        commands:
+          - gradle registration -i
+  #build-api-test-image:
+  #  type: build
+  #  title: 'Build api test image'
+  # image_name: securebanking/sb-openbanking-uk-functional-tests
+  # run_functional_tests2:
+        #   environment:
+      # - DOMAIN=master.forgerock.financial
+    # title: 'Run functional tests'
+    # image: ${{build-api-test-image}}
+    # push-config-docker-image:
+    # type: push
+    # title: "Push functional test docker image"
+    # candidate: ${{build-api-test-image}}
+        # tags:
+        # - ${{CF_SHORT_REVISION}}
+      # - latest
+      # when:
+        # branch:
+          # only:
+          # - master
