@@ -135,6 +135,9 @@ tasks {
         dependsOn("serviceHealthCheck")
         description = "Runs ALL tests"
     }
+    compileJava {
+        onlyIf { false }
+    }
 }
 
 // To generate the tests library

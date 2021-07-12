@@ -12,7 +12,7 @@ steps:
     git: github-bot
   build_project:
     type: build
-    title: build image to run single tests
+    title: build image helper to run set of tests
     stage: "prepare"
     working_directory: ${{main_clone}}
     dockerfile: Dockerfile
