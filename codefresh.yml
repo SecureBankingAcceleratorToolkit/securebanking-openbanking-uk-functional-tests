@@ -31,14 +31,14 @@ steps:
         title: serviceHealthCheck
         image: ${{build_project}}
         commands:
-          - gradle serviceHealtCheck -i
+          - gradle -x build serviceHealtCheck -i
       run_registration:
         environment:
           - DOMAIN=master.forgerock.financial
         title: registration
         image: ${{build_project}}
         commands:
-          - gradle registration -i
+          - gradle -x build registration -i
   #build-api-test-image:
   #  type: build
   #  title: 'Build api test image'
