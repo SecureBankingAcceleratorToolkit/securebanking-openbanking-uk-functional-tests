@@ -8,4 +8,6 @@ RUN ["chmod", "+x", "/bin/update-hosts.sh"]
 
 WORKDIR /opt/functional-tests
 
-ENTRYPOINT [ "update-hosts.sh" ]
+RUN ["gradle", "clean", "build", "-x", "test"]
+
+ENTRYPOINT update-hosts.sh
