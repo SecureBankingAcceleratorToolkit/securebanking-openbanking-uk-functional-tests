@@ -20,6 +20,7 @@ steps:
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
     no_cache: true
     no_cf_cache: true
+    disable_push: true
   run_functional_tests:
     type: parallel
     stage: "functional_tests"

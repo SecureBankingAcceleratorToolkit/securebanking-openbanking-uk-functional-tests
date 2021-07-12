@@ -1,4 +1,4 @@
-FROM gradle:6-jdk11
+FROM gradle:7.1.1-jdk11
 
 COPY src /opt/functional-tests/src
 COPY build.gradle.kts /opt/functional-tests/build.gradle.kts
